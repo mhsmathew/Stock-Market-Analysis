@@ -5,29 +5,39 @@ import matplotlib.pyplot as plt
 import datetime
 
 # -------------------- Getting the data --------------------
-stock = 'SPY'
+stock = 'FB'
 # 12 months ago
-start_time = (datetime.date.today() - datetime.timedelta(12*365/12)).isoformat()
+start_time = (datetime.date.today() - datetime.timedelta(11*365/12)).isoformat()
 #Today
 end_time = datetime.datetime.today()
 #data = pdr.get_data_yahoo(stock, start=start_time, end=end_time)
 data = pdr.DataReader(stock, 'yahoo', start_time, end_time)
 
-# -------------- Simple Moving Average Algorithm ---------------
+# -------------- Moving Average Algorithm ---------------
 # Short moving average
 short_window = 20
 # Long moving average
 long_window = 100
 
+# Simple or Exponential Moving Average
+#average_type="simple"
+average_type="exponential"
+
+
 indicators = pd.DataFrame(index=data.index)
 indicators['price'] = data['Adj Close']
 indicators['signal'] = 0.0
 
-# Short window average over the data period
-indicators['short_avg'] = data['Close'].rolling(window = short_window, min_periods = 1, center = False).mean()
+# Short and long window average over the data period
+if(average_type == "simple"):
+    indicators['short_avg'] = data['Close'].rolling(window = short_window, min_periods = 1, center = False).mean()
+    indicators['long_avg'] = data['Close'].rolling(window = long_window, min_periods = 1, center = False).mean()
+elif(average_type == "exponential"):
+    indicators['short_avg'] = data['Close'].ewm(span=short_window, adjust=False).mean()
+    indicators['long_avg'] = data['Close'].ewm(span=long_window, adjust=False).mean()
 
-# Long window average over the data period
-indicators['long_avg'] = data['Close'].rolling(window = long_window, min_periods = 1, center = False).mean()
+
+
 
 # Where they cross
 indicators['signal'][short_window:] = np.where(
@@ -67,5 +77,3 @@ ax1.plot(indicators.loc[indicators.positions == -1.0].index,
          
 # Show the plot
 plt.show()
-
-
