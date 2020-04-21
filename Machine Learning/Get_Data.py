@@ -6,9 +6,13 @@ from finta import TA
 
 
 class GetData:
-    def __init__(self, stock):
-        # 500 months ago
+    def __init__(self, stock, just_today=False):
+        self.just_today = just_today
+        # 500 months of data
         self.start_time = (datetime.date.today() - datetime.timedelta(500 * 365 / 12)).isoformat()
+        if self.just_today:
+            # Limiting unneeded computations, may need old data from some indicators
+            self.start_time = (datetime.date.today() - datetime.timedelta(5 * 365 / 12)).isoformat()
         # Today
         self.end_time = datetime.datetime.today()
         self.data = pdr.DataReader(stock, 'yahoo', self.start_time, self.end_time)
@@ -62,10 +66,13 @@ class GetData:
         self.add_indicators()
         self.data = self.get_data()
         self.add_short_testing()
-        # Some indicators need longer time so we can just remove first 500
-        self.data = self.data[500:]
-        # In order to accurately train on future success we need to eliminate not fully completed entries
-        self.data = self.data[:-30]
+        if not self.just_today:
+            # Some indicators need longer time so we can just remove first 500
+            self.data = self.data[500:]
+            # In order to accurately train on future success we need to eliminate not fully completed entries
+            self.data = self.data[:-30]
+        else:
+            self.data = self.data.tail(1)
         return self.data
 
     # Adds short term stock results in relation to current position
