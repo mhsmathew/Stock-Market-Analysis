@@ -12,21 +12,21 @@ For the model and predictions on my [personal website](https://mathewsteininger.
 
 ### Analysis
 
-Regardless if you use a regression-based algorithm or a classification one, the heart of whether to buy or sell a stock is a classification problem. However, it is effective to set bins and upper/lower limits of a regression model to predict whether to buy or sell. From our model, we use the labels `Strongly Buy` and `Strongly Sell` associated with prediction ratings of +- 10. `Buy/Sell` classifications are associated with a rating of either [5, 10) and [-5, -10) respectively, and `Hold` is values (-5, 5). Moreover, after doing some extensive hyperparameter optimization using gradient descent, our algorithm performed as followed:
-* 67.6% accurate when predicting short-term stock movements relative to the S&P 500 using the `Strongly Buy/Sell` classification
-* 55.8% accurate when predicting short-term stock movements relative to the S&P 500 using any `Buy/Sell` classification
+Regardless if you use a regression-based algorithm or a classification one, the root issue of whether to buy or sell a stock is a classification problem. However, it is effective to set bins and upper/lower limits of a regression model to predict whether to buy or sell. From our model, we use the labels `Strongly Buy` and `Strongly Sell` associated with prediction ratings of +- 10. `Buy/Sell` classifications are associated with a rating of either [5, 10) or [-5, -10) respectively, and `Hold` is values (-5, 5). Moreover, after doing extensive hyperparameter optimization using gradient descent, our algorithm performed as followed:
+* 67.6% accuracy when predicting short-term stock movements relative to the S&P 500 using the `Strongly Buy/Sell` classification
+* 55.8% accuracy when predicting short-term stock movements relative to the S&P 500 using any `Buy/Sell` classification
 
 Here are two confusion matrixes. The first represents the model testing our `Strongly Buy/Sell` classifications and the second is any `Buy/Sell` Classification.
 
 
-#### `Strongly Buy/Sell` Prediction Confusion Matrix
+#### `Strongly Buy/Sell` Confusion Matrix
 
 | n = 1853      | Predicted Sell | Predicted Buy | 
 | ------------- | -------------- |-------------- |
 | **Actual Sell**   | 0.416082029    | 0.104695089   |
 | **Actual Buy**    | 0.286562331    | 0.19266055    |
 
-#### `Buy/Sell` Prediction Confusion Matrix
+#### `Buy/Sell` Confusion Matrix
 
 | n = 47807      | Predicted Sell | Predicted Buy | 
 | ------------- | -------------- |-------------- |
