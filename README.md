@@ -1,6 +1,8 @@
 # Stock Market Analysis
 Analyzing stock market trends using several different indicators in quantum finance. I explore machine learning and standard crossovers to predict future short term stock trends.
 
+An article write-up on this project can be found [here](https://towardsdatascience.com/predicting-short-term-stock-movements-with-quantitative-finance-and-machine-learning-in-python-e6e04e3e0337?source=friends_link&sk=1f1bfd0f3af45158a7a0f7e9731987d6) and I highly suggest checking that out.
+
 ## Simple Analysis 
 
 In quantum finance, the simplest of trading indicators is a crossover. A crossover is defined as when the short moving average crosses the long moving average, and a moving average is the average closing price over a set period. In this analysis, I utilize the Simple Moving Average and the Exponential Moving Average (which weighs newer averages greater). When our script detects a crossover in favor of the stock going up, a buy is triggered, and vice-versa for a sell. Using a custom backtesting analysis, we can test our strategy with historical data and even plot the trades. 
